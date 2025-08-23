@@ -66,14 +66,27 @@ const FormRecipe = ({
                             validateStatus={touched.title && errors.title ? 'error' : ''}
                             help={touched.title && errors.title}
                         >
-                            <Input name="title" value={values.title} onChange={handleChange} />
+                            <Input 
+                                name="title" 
+                                value={values.title} 
+                                onChange={handleChange}
+                                placeholder="Digite o título da receita"
+                                maxLength={30}
+                            />
                         </Form.Item>
                         <Form.Item
                             label="Descrição"
                             validateStatus={touched.description && errors.description ? 'error' : ''}
                             help={touched.description && errors.description}
                         >
-                            <TextArea name="description" value={values.description} onChange={handleChange} />
+                            <TextArea 
+                                name="description" 
+                                value={values.description} 
+                                onChange={handleChange}
+                                placeholder="Digite uma breve descrição"
+                                autoSize={{ minRows: 2, maxRows: 2 }}
+                                maxLength={60}
+                            />
                         </Form.Item>
                         <div className="flex justify-between gap-2">
                             <Form.Item
@@ -105,6 +118,23 @@ const FormRecipe = ({
                                     onChange={value => setFieldValue('category', value)}
                                     maxTagCount={2}
                                     placeholder="Adicione categorias"
+                                    tagRender={(props) => {
+                                        const { label, value, closable, onClose } = props;
+
+                                        return (
+                                            <span className="flex items-center gap-1 bg-button-light rounded-full px-2 py-1 m-1 text-stone-50 text-sm">
+                                                {label}
+                                                {closable && (
+                                                    <span
+                                                        className="ml-1 cursor-pointer"
+                                                        onClick={onClose}
+                                                    >
+                                                        ×
+                                                    </span>
+                                                )}
+                                            </span>
+                                        );
+                                    }}
                                 >
                                     <Option value="doce">Doce</Option>
                                     <Option value="salgado">Salgado</Option>
@@ -152,7 +182,7 @@ const FormRecipe = ({
                             <Button
                                 className="w-full"
                                 label="Adicionar Ingrediente"
-                                icon={<FiPlus  />}
+                                icon={<FiPlus />}
                                 onClick={() => setFieldValue('ingredients', [...values.ingredients, { name: '', quantity: '' }])}
                             />
                         </Form.Item>
@@ -170,7 +200,7 @@ const FormRecipe = ({
                                                 name={`steps[${idx}]`}
                                                 value={step}
                                                 onChange={handleChange}
-                                                autoSize={{ minRows: 2, maxRows: 6 }}
+                                                autoSize={{ minRows: 2, maxRows: 2 }}
                                             />
                                             {idx > 0 && (
                                                 <button
@@ -194,7 +224,7 @@ const FormRecipe = ({
                             <Button
                                 className="w-full mt-2"
                                 label="Adicionar Etapa"
-                                icon={<FiPlus  />}
+                                icon={<FiPlus />}
                                 onClick={() => setFieldValue('steps', [...values.steps, ''])}
                             />
                         </Form.Item>
